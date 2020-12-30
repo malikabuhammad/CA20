@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+<!-- header block -->
+{% block header %}
+<h1>{% block title %}Add User{% endblock %}</h1>
+{% endblock %}
+
+<!-- content block -->
+{% block content %}
+<form method="POST">
+    <div class="row">
+        {{form.hidden_tag()}}
+        <div class="col-md-6 mb-3">
+
+            {{form.username.label}} {{form.username(class_="form-control")}}
+
+        </div>
+        <div class="col-md-6 mb-3">
+            {{form.password.label}} {{form.password(class_="form-control")}}
+        </div>
+    </div>
+    <hr class="mb-4" /> {{form.submit()}}
+</form>
+{% endblock %}
