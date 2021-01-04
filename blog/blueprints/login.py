@@ -1,20 +1,19 @@
 from flask import Blueprint, render_template,request ,redirect,session
 from blog.db import get_db
 import sqlite3
-
+from ..forms import LoginForm
 # define our blueprint
 login_bp = Blueprint('login', __name__)
 
 @login_bp.route('/login', methods =['POST','GET'])
 def login():
-    if request.method == "GET":
-        # render the login template
-        return render_template('login/login.html')
-    else:
-        # read values from the login form
-        username= request.form['username']
-        password = request.form['password']
+    #create an instance of the form
+    login=LoginForm()
 
+    if login.validate_on_submit():
+        #read values from loginform 
+        username=login.username.data
+        password=login.password.data
         # get the DB connection
         db = get_db()
         

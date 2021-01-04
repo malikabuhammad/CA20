@@ -12,7 +12,7 @@ def add_user():
 
     #create an instance of the form
     signup_form=SignupForm()
-        # render add user blueprint
+    #  add user blueprint
     
     if signup_form.validate_on_submit():
         #read the username from the form 
