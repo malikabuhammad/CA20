@@ -2,6 +2,7 @@ from flask import Blueprint, render_template,request ,session, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField ,validators
 from blog.db import get_db
+from ..forms import AddPostForm
 import sqlite3
 import datetime
 
@@ -30,12 +31,12 @@ class BlogForm(FlaskForm):
 
 @blog_bp.route('/add/post', methods = ['GET', 'POST'])
 def add_post():
-    if request.method == 'POST':
+    add_post_form = AddPostForm
+    if add_post.validate_on_submit():
 
         # read post values from the form
-        title = request.form['title']
-        body = request.form['body-post']
-
+        title = add_post_form.title.data
+        body = add_post_form.body.data
         # read the 'uid' from the session for the current logged in user
         author_id = session['uid']
 
