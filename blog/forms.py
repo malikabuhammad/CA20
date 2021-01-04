@@ -11,18 +11,17 @@ class SignupForm(FlaskForm):
 class LoginForm(FlaskForm):
     username=StringField("Username:", [validators.InputRequired()])
     password=PasswordField("password",[validators.InputRequired()])
+    submit=SubmitField("login")
 
 #create a class for editng information
-class EditForm(FlaskForm):
-    first_name=StringField("First name :",[validators.InputRequired()])
-    last_name=StringField("Last name :", [validators.InputRequired()])
-    biography=TextAreaField("Biography :")
-    edit = SubmitField("Edit")
+
 
 #creating a class for changing the password
 class ChangePasswordForm(FlaskForm):
     old_password=PasswordField("old password : "[validators.InputRequired()])
-    new_password=PasswordField("new password:" [validators.InputRequired()])
+    new_password=PasswordField("new password:",[validators.DataRequired(),validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
     submit= SubmitField("change password")
 
 
