@@ -24,19 +24,18 @@ def index():
 
     # render 'blog' blueprint with posts
     return render_template('blog/index.html', posts=posts)
-class BlogForm(FlaskForm):
-    pass
+
 
 
 
 @blog_bp.route('/add/post', methods = ['GET', 'POST'])
 def add_post():
-    add_post_form = AddPostForm
+    add_post = AddPostForm()
     if add_post.validate_on_submit():
 
         # read post values from the form
-        title = add_post_form.title.data
-        body = add_post_form.body.data
+        title = add_post.title.data
+        body = add_post.body.data
         # read the 'uid' from the session for the current logged in user
         author_id = session['uid']
 
@@ -56,10 +55,10 @@ def add_post():
         except sqlite3.Error as er:
             print('SQLite error: %s' % (' '.join(er.args)))
             return redirect("/404")
-    else:
+    
         # if the user is not logged in, redirect to '/login' 
-        if "uid" not in session:
+    if "uid" not in session:
             return redirect('/login')
         
         # else, render the template
-        return render_template("blog/add-post.html")
+    return render_template("blog/add-post.html", form=add_post)

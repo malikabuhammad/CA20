@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Blueprint, render_template, request, redirect
 from blog.db import get_db
-from ..forms import SignupForm
+from ..forms import SignupForm,ChangePassword,Edit
 
 # define our blueprint
 user_bp = Blueprint('user', __name__)
@@ -37,6 +37,34 @@ def add_user():
             print('SQLite error: %s' % (' '.join(er.args)))
             return redirect("/404")
     return render_template('user/index.html',form=signup_form)
+@user_bp.route('/change', methods=['GET', 'POST'])
+def change_password():
+    #create inctence form changepasword class
+    change_password=ChangePassword()
+    if change_password.validate_on_submit():
+        current_password=change_password.old_password.data
+        new_password=change_password.new_password.data
+        # get the DB conection
+        db=get_db()
+
+
+@user_bp.route('/edit/user', methods=['GET', 'POST'])
+@login_required
+def edit_user():
+    #creating an instance
+    edit=Edit()
+    if edit.validate_on_submit():
+        first_name=edit.first_name.data
+        last_name=edit.last_name.data
+        bio=edit.biography.data
+        
+        db=get_db()
+
+        try:
+            db.execute("INSERT INTO user (first_name,last_name,biography) VALUES (?, ?,?);", (first_name, last_name,biography))
+
+
+
 
 @user_bp.route('/users')
 def get_users():
